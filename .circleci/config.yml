@@ -39,18 +39,3 @@ workflows:
     # - deploy:
     #     requires:
     #       - build-node
-
-orbs:
-  cypress: cypress-io/cypress@1
-workflows:
-  build:
-    Jobs:
-      - cypress/install:
-    build: ‘npm run build”
-      - cypress/run:
-    requires:
-      - cypress/install
-	  record: true
-	  parallel: true
-    parallelism: 4
-    start: ‘npm start’
