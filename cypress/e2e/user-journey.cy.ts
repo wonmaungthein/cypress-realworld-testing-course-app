@@ -1,8 +1,4 @@
 describe("User journey", () => {
-  //   beforeEach(() => {
-  //     cy.visit("http://localhost:3000")
-  //   })
-
   it("a user find a course on home page and complete the lesson", () => {
     cy.visit("http://localhost:3000")
     cy.getByData("course-0").find("a").eq(3).click()
