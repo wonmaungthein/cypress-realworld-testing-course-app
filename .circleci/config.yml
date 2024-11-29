@@ -41,7 +41,7 @@ workflows:
     #       - build-node
 
 orbs:
-	cypress: cypress-io/cypress@1
+  cypress: cypress-io/cypress@1
 workflows:
   build:
     Jobs:
