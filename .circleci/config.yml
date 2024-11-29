@@ -3,6 +3,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5
+  cypress: cypress-io/cypress@3
 jobs:
   build-node:
     # Build node project
@@ -36,6 +37,10 @@ workflows:
   build:
     jobs:
       - build-node
+      - cypress/run:
+          start-command: 'npm run start'
+          cypress-command: 'npx cypress run --parallel --record --group all tests'
+          parallelism: 4
     # - deploy:
     #     requires:
     #       - build-node
