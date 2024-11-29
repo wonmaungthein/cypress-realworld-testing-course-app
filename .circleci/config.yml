@@ -1,46 +1,12 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:.,package_manager:yarn:
 version: 2.1
 orbs:
-  node: circleci/node@5
+  # "cypress-io/cypress@3" installs the latest published
+  # version "s.x.y" of the orb. We recommend you then use
+  # the strict explicit version "cypress-io/cypress@3.x.y"
+  # to lock the version and prevent unexpected CI changes
   cypress: cypress-io/cypress@3
-jobs:
-  build-node:
-    # Build node project
-    executor: node/default
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: yarn
-      - run:
-          command: yarn run build
-      - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
-      - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: node-build
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
-      - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
 workflows:
   build:
     jobs:
-      - build-node
-      - cypress/run:
+      - cypress/run: # "run" job comes from "cypress" orb
           start-command: 'npm run start'
-          cypress-command: 'npx cypress run --parallel --record --group all tests'
-          parallelism: 4
-    # - deploy:
-    #     requires:
-    #       - build-node
