@@ -6,7 +6,7 @@ workflows:
     jobs:
       - cypress/run:
           package-manager: yarn
-          start-command: yarn start
+          start-command: yarn build
 
 # version: 2.1
 # orbs:
