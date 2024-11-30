@@ -1,9 +1,11 @@
 {
   "private": true,
   "scripts": {
+    "start": "my-server -p 3000",
+    "cy:run": "cypress run",
+    "test": "start-server-and-test start http://localhost:3000 cy:run",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
