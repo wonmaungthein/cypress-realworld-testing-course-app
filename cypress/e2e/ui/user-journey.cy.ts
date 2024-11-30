@@ -3,6 +3,7 @@ describe("User journey", () => {
     cy.visit("http://localhost:3000")
     cy.getByData("course-0").find("a").eq(3).click()
     cy.location("pathname").should("eq", "/testing-your-first-application")
+
     cy.getByData("next-lesson-button").click()
     cy.location("pathname").should(
       "eq",

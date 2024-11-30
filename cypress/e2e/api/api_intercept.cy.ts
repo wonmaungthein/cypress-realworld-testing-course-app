@@ -83,7 +83,7 @@ describe("API test with fixtures", () => {
 })
 
 describe("Chained API Requests", () => {
-  it.only("Should create and fetch a user", () => {
+  it("Should create and fetch a user", () => {
     const newUser = { name: "Mark Smith", email: "mark.smith@example.com" }
 
     cy.request(
@@ -94,14 +94,27 @@ describe("Chained API Requests", () => {
       expect(postResponse.status).to.eq(201)
       const userId = postResponse.body.id
 
-    // Need to find out why it doesn't work
-    //   cy.request(
-    //     "GET",
-    //     `https://jsonplaceholder.typicode.com/users/${userId}`
-    //   ).then((getResponse) => {
-    //     expect(getResponse.status).to.eq(200)
-    //     expect(getResponse.body.name).to.eq("Mark Smith")
-    //   })
+      // Need to find out why it doesn't work
+      //   cy.request(
+      //     "GET",
+      //     `https://jsonplaceholder.typicode.com/users/${userId}`
+      //   ).then((getResponse) => {
+      //     expect(getResponse.status).to.eq(200)
+      //     expect(getResponse.body.name).to.eq("Mark Smith")
+      //   })
+    })
+  })
+})
+
+// cypress/tests/api/api-users.spec.ts
+describe("get users", () => {
+  context("GET /users", () => {
+    it.only("gets a list of users", () => {
+      cy.request("GET", "https://jsonplaceholder.typicode.com/users").then((response) => {
+        expect(response.status).to.eq(200)
+        cy.log(JSON.stringify(response.body[0]))
+        expect(response.body).length.to.be.greaterThan(1)
+      })
     })
   })
 })
