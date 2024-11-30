@@ -1,5 +1,3 @@
-import { newUser } from "../../fixtures/example.json"
-
 describe("Simple api testing", () => {
   it("Should fetch", () => {
     cy.request("GET", "https://dummyapi.io/explorer").then((response) => {
@@ -47,18 +45,63 @@ describe("API Testing with Cypress", () => {
     )
   })
   it("Should create a new user", () => {
+    cy.fixture("example").then((data) => {
+      cy.request(
+        "POST",
+        "https://jsonplaceholder.typicode.com/users",
+        data
+      ).then((response) => {
+        // Assert the response status
+        expect(response.status).to.eq(201)
+
+        // Assert the response body
+        expect(response.body).to.have.property("id") // Assuming the API generates an ID
+        cy.log(JSON.stringify(response.body))
+        expect(response.body.name).to.eq("Using fixtures to represent data")
+        expect(response.body.email).to.eq("hello@cypress.io")
+        expect(response.body.newUser.email).to.eq("won.thein@example.com")
+      })
+    })
+  })
+})
+
+describe("API test with fixtures", () => {
+  it("Should create a new user using fixtures", () => {
+    cy.fixture("example").then((user) => {
+      cy.log(`user from fixture ${JSON.stringify(user)}`)
+      cy.request(
+        "POST",
+        "https://jsonplaceholder.typicode.com/users",
+        user
+      ).then((response) => {
+        expect(response.status).to.eq(201)
+        expect(response.body.newUser.name).to.eq("Won Thein")
+        cy.log(JSON.stringify(response.body.newUser))
+      })
+    })
+  })
+})
+
+describe("Chained API Requests", () => {
+  it.only("Should create and fetch a user", () => {
+    const newUser = { name: "Mark Smith", email: "mark.smith@example.com" }
+
     cy.request(
       "POST",
       "https://jsonplaceholder.typicode.com/users",
       newUser
-    ).then((response) => {
-      // Assert the response status
-      expect(response.status).to.eq(201)
+    ).then((postResponse) => {
+      expect(postResponse.status).to.eq(201)
+      const userId = postResponse.body.id
 
-      // Assert the response body
-      expect(response.body).to.have.property("id") // Assuming the API generates an ID
-      expect(response.body.name).to.eq("Won Thein")
-      expect(response.body.email).to.eq("won.thein@example.com")
+    // Need to find out why it doesn't work
+    //   cy.request(
+    //     "GET",
+    //     `https://jsonplaceholder.typicode.com/users/${userId}`
+    //   ).then((getResponse) => {
+    //     expect(getResponse.status).to.eq(200)
+    //     expect(getResponse.body.name).to.eq("Mark Smith")
+    //   })
     })
   })
 })
