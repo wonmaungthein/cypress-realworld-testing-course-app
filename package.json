@@ -1,11 +1,9 @@
 {
   "private": true,
-  "scripts": {
-    "start": "start-server-and-test start http://localhost:3000 cy:run",
+   "scripts": {
+    "start": "my-server -p 3000",
     "cy:run": "cypress run",
-    "dev": "next dev",
-    "build": "next build",
-    "lint": "next lint"
+    "test": "start-server-and-test start http://localhost:3000 cy:run"
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
